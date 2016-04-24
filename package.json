@@ -1,0 +1,7 @@
+{
+  "name": "sanctuary-logo",
+  "private": true,
+  "dependencies": {
+    "opentype.js": "0.6.2"
+  }
+}
