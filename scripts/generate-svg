@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+if [[ $# -ne 2 ]] ; then
+  echo "Expected exactly two arguments" >&2
+  exit 1
+fi
+
+calc() {
+  bc --mathlib <<<"$1" | sed "s:[.]\{0,1\}0*$::"
+}
+
+colour="#080"
+fontpath="$2"
+fontsize="$(calc "0.72 * $1")"
+strokewidth="$(calc "0.06 * $1")"
+x="$(calc "0.298 * $1")"
+y="$(calc "0.755 * $1")"
+
+read -r -d '' script <<EOF
+require('opentype.js')
+.loadSync('$fontpath')
+.getPath('S', $x, $y, $fontsize)
+.toPathData()
+.match(/[A-Z][^A-Z]*/g)
+.join('\n       ')
+.replace(/[A-Z](?=[^ ])/g, '$& ')
+EOF
+
+read -r -d '' template <<EOF
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="$(calc "$1")px" height="$(calc "$1")px">
+  <!-- Copyright (c) 2016 Sanctuary -->
+  <circle
+    cx="$(calc "$1 / 2")"
+    cy="$(calc "$1 / 2")"
+    r="$(calc "($1 - $strokewidth) / 2")"
+    stroke="$colour"
+    stroke-width="$strokewidth"
+    fill="none"
+    />
+  <path
+    fill="$colour"
+    d="$(node --print "$script")"
+    />
+</svg>
+EOF
+
+printf "%s\n" "$template"
