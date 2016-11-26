@@ -3,7 +3,10 @@ FONT = AvenirNext-Medium.ttf
 
 
 .PHONY: all
-all: sanctuary-logo.png sanctuary-logo.svg
+all: sanctuary-favicon.png sanctuary-logo.png sanctuary-logo.svg
+
+sanctuary-favicon.png: scripts/generate-svg $(FONT)
+	'$<' 32.0 '$(FONT)' | $(CONVERT) >'$@'
 
 sanctuary-logo.png: scripts/generate-svg $(FONT)
 	'$<' 200.0 '$(FONT)' | $(CONVERT) >'$@'
