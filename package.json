@@ -1,7 +1,22 @@
 {
   "name": "sanctuary-logo",
-  "private": true,
-  "dependencies": {
-    "opentype.js": "0.6.2"
-  }
+  "version": "0.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sanctuary-js/sanctuary-logo.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "opentype.js": "0.6.2",
+    "xyz": "2.0.x"
+  },
+  "files": [
+    "/LICENSE",
+    "/README.md",
+    "/package.json",
+    "/sanctuary-favicon.png",
+    "/sanctuary-logo.png",
+    "/sanctuary-logo.svg"
+  ]
 }
