@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-logo",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
     "/package.json",
     "/sanctuary-favicon.png",
     "/sanctuary-logo.png",
-    "/sanctuary-logo.svg"
+    "/sanctuary-logo.svg",
+    "/sanctuary-mask-icon.svg"
   ]
 }
