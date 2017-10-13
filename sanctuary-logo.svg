@@ -1,18 +1,19 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100px" height="100px">
-  <!-- Copyright (c) 2016 Sanctuary -->
-  <circle
-    cx="50"
-    cy="50"
-    r="47"
-    stroke="#080"
-    stroke-width="6"
-    fill="none"
-    />
+  <!-- Copyright (c) 2017 Sanctuary -->
   <path
+    fill-rule="evenodd"
     fill="#080"
-    d="M 61.34 33.96
+    d="M 50,0
+       a 50,50 0 0,1 0,100
+       a 50,50 0 0,1 0,-100
+       Z
+       m 0,6
+       a 44,44 0 0,1 0,88
+       a 44,44 0 0,1 0,-88
+       Z
+       M 61.34 33.96
        Q 59.82 31.87 57.23 30.54
        Q 54.64 29.20 51.40 29.20
        Q 49.67 29.20 47.91 29.67

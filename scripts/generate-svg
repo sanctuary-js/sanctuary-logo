@@ -1,49 +1,43 @@
 #!/usr/bin/env bash
+set -euf -o pipefail
 
-if [[ $# -ne 2 ]] ; then
-  echo "Expected exactly two arguments" >&2
-  exit 1
-fi
-
-calc() {
-  bc --mathlib <<<"$1" | sed "s:[.]\{0,1\}0*$::"
+attrs() {
+  local attr
+  for attr ; do printf ' %s="%s"' "${attr%%=*}" "${attr#*=}" ; done
 }
 
-colour="#080"
-fontpath="$2"
-fontsize="$(calc "0.72 * $1")"
-strokewidth="$(calc "0.06 * $1")"
-x="$(calc "0.298 * $1")"
-y="$(calc "0.755 * $1")"
+js() {
+  node --print "($1)"
+}
 
-read -r -d '' script <<EOF
-require('opentype.js')
-.loadSync('$fontpath')
-.getPath('S', $x, $y, $fontsize)
-.toPathData()
-.match(/[A-Z][^A-Z]*/g)
-.join('\n       ')
-.replace(/[A-Z](?=[^ ])/g, '$& ')
-EOF
+outercircum="$(js "$3")"
+innercircum="$(js "Math.round(0.88 * $outercircum)")"
+outerradius="$(js "$outercircum / 2")"
+innerradius="$(js "$innercircum / 2")"
 
-read -r -d '' template <<EOF
+cat <<EOF
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="$(calc "$1")px" height="$(calc "$1")px">
-  <!-- Copyright (c) 2016 Sanctuary -->
-  <circle
-    cx="$(calc "$1 / 2")"
-    cy="$(calc "$1 / 2")"
-    r="$(calc "($1 - $strokewidth) / 2")"
-    stroke="$colour"
-    stroke-width="$strokewidth"
-    fill="none"
-    />
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="$(js "$3")px" height="$(js "$3")px"$(attrs "${@:4}")>
+  <!-- Copyright (c) 2017 Sanctuary -->
   <path
-    fill="$colour"
-    d="$(node --print "$script")"
+    fill-rule="evenodd"
+    fill="$1"
+    d="M $outerradius,0
+       a $outerradius,$outerradius 0 0,1 0,$outercircum
+       a $outerradius,$outerradius 0 0,1 0,-$outercircum
+       Z
+       m 0,$(js "$outerradius - $innerradius")
+       a $innerradius,$innerradius 0 0,1 0,$innercircum
+       a $innerradius,$innerradius 0 0,1 0,-$innercircum
+       Z
+       $(js "require('opentype.js')
+             .loadSync('$2')
+             .getPath('S', 0.298 * $3, 0.755 * $3, 0.72 * $3)  // x, y, font-size
+             .toPathData()
+             .match(/[A-Z][^A-Z]*/g)
+             .join('\n       ')
+             .replace(/[A-Z](?=[^ ])/g, '$& ')")"
     />
 </svg>
 EOF
-
-printf "%s\n" "$template"

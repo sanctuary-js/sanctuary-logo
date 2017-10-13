@@ -4,7 +4,7 @@ XYZ = node_modules/.bin/xyz --repo git@github.com:sanctuary-js/sanctuary-logo.gi
 
 
 .PHONY: all
-all: LICENSE sanctuary-favicon.png sanctuary-logo.png sanctuary-logo.svg
+all: LICENSE sanctuary-favicon.png sanctuary-logo.png sanctuary-logo.svg sanctuary-mask-icon.svg
 
 .PHONY: LICENSE
 LICENSE:
@@ -13,13 +13,16 @@ LICENSE:
 	rm -- '$@.orig'
 
 sanctuary-favicon.png: scripts/generate-svg $(FONT)
-	'$<' 32.0 '$(FONT)' | $(CONVERT) >'$@'
+	'$<' '#080' '$(FONT)' 32 | $(CONVERT) >'$@'
 
 sanctuary-logo.png: scripts/generate-svg $(FONT)
-	'$<' 200.0 '$(FONT)' | $(CONVERT) >'$@'
+	'$<' '#080' '$(FONT)' 200 | $(CONVERT) >'$@'
 
 sanctuary-logo.svg: scripts/generate-svg $(FONT)
-	'$<' 100.0 '$(FONT)' >'$@'
+	'$<' '#080' '$(FONT)' 100 >'$@'
+
+sanctuary-mask-icon.svg: scripts/generate-svg $(FONT)
+	'$<' '#000' '$(FONT)' 16 viewBox="0 0 16 16" >'$@'
 
 $(FONT):
 	curl --location 'https://github.com/mimetic/fontmetrics/blob/master/fonts/Avenir%20Next%20Medium.ttf?raw=true' >'$@'
