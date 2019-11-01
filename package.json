@@ -9,7 +9,7 @@
   "dependencies": {},
   "devDependencies": {
     "opentype.js": "0.6.2",
-    "xyz": "2.0.x"
+    "xyz": "4.0.x"
   },
   "files": [
     "/LICENSE",
