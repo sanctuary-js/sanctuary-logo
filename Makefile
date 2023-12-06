@@ -1,6 +1,6 @@
 CONVERT = rsvg-convert
 FONT = AvenirNext-Medium.ttf
-XYZ = node_modules/.bin/xyz --repo git@github.com:sanctuary-js/sanctuary-logo.git --script scripts/prepublish
+XYZ = node_modules/.bin/xyz --branch main --repo git@github.com:sanctuary-js/sanctuary-logo.git --script scripts/prepublish
 
 
 .PHONY: all
